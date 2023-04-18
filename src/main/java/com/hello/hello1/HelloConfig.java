@@ -13,7 +13,7 @@ public class HelloConfig implements WebMvcConfigurer {
     public static final String HEADER_INTERCEPTOR_NAME = "headerInterceptor";
     public static final String STARTER_CONFIG_CLASS_NAME = "ru.test.starter.config.StarterMyConfiguration";
 
-    // Кажется это стоило бы писать в интерцепторе, я так делал но тогда его не видно
+    // Кажется это стоило бы писать в стартере, я так делал но тогда его не видно
     // Разве что сделать такой WebMvcConfigurer в интерцепотре и явно добавлять в текущий контекст
     @Override
     @ConditionalOnClass(name = STARTER_CONFIG_CLASS_NAME)

@@ -1,44 +1,31 @@
 package com.hello.hello1;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+//@ConditionalOnBean(name = "headerInterceptor")
 public class HelloConfig implements WebMvcConfigurer {
-    public static final String HEADER_INTERCEPTOR_NAME = "headerInterceptor";
-    public static final String STARTER_CONFIG_CLASS_NAME = "ru.test.starter.config.StarterMyConfiguration";
 
-    // Кажется это стоило бы писать в стартере, я так делал но тогда его не видно
-    // Разве что сделать такой WebMvcConfigurer в стартере и явно добавлять в текущий контекст
+    @Autowired(required = false)
+    @Qualifier("headerInterceptor")
+    HandlerInterceptor headerInterceptor;
+
     @Override
-    @ConditionalOnClass(name = STARTER_CONFIG_CLASS_NAME)
     public void addInterceptors(InterceptorRegistry registry) {
-        try {
-            Class<?> starterConfigName = Class.forName(STARTER_CONFIG_CLASS_NAME);
-            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(starterConfigName);
-            if (context.containsBean(HEADER_INTERCEPTOR_NAME)) {
-                HandlerInterceptor headerInterceptor = (HandlerInterceptor) context.getBean(HEADER_INTERCEPTOR_NAME);
-                registry.addInterceptor(headerInterceptor);
-            }
-        } catch (Exception e) {
+        if (headerInterceptor != null) {
+            registry.addInterceptor(headerInterceptor);
         }
     }
 
-/*    @Override
-    @SneakyThrows
-    @ConditionalOnClass(name = STARTER_CONFIG_CLASS_NAME)
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        Class<?> starterConfigName = Class.forName(STARTER_CONFIG_CLASS_NAME);
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(starterConfigName);
-        if (context.containsBean(HEADER_INTERCEPTOR_NAME)) {
-            HandlerInterceptor headerInterceptor = (HandlerInterceptor) context.getBean(HEADER_INTERCEPTOR_NAME);
-            registry.addInterceptor(headerInterceptor);
-        }
-    }*/
 }

@@ -15,7 +15,16 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Custom starter
 	implementation group: 'org.my.starter', name: 'mystarter', version: '1.6'
+
+	// Lombok
+	compileOnly("org.projectlombok:lombok")
+	testCompileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
+	testAnnotationProcessor("org.projectlombok:lombok")
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

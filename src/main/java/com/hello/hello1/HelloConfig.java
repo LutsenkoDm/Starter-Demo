@@ -15,7 +15,6 @@ public class HelloConfig implements WebMvcConfigurer {
 
     // Кажется это стоило бы писать в интерцепторе, я так делал но тогда его не видно
     // Разве что сделать такой WebMvcConfigurer в интерцепотре и явно добавлять в текущий контекст
-    // если вообще так можно
     @Override
     @ConditionalOnClass(name = STARTER_CONFIG_CLASS_NAME)
     public void addInterceptors(InterceptorRegistry registry) {

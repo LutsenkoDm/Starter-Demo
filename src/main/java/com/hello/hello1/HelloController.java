@@ -1,6 +1,8 @@
 package com.hello.hello1;
 
 import com.hello.hello1.service.SecurityService;
+import com.hello.hello1.service.SecurityServiceImpl1;
+import com.hello.hello1.service.SecurityServiceImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +14,10 @@ public class HelloController {
 
     @Autowired
     @Qualifier("SecurityServiceImpl1")
-    SecurityService securityService1;
+    SecurityServiceImpl1 securityService1;
     @Autowired
     @Qualifier("SecurityServiceImpl2")
-    SecurityService securityService2;
+    SecurityServiceImpl2 securityService2;
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
@@ -25,6 +27,11 @@ public class HelloController {
         System.out.println("------------------");
         System.out.println("In controller, service2 return: " + securityService2.auth("abracadabra", "p3"));
         System.out.println("------------------");
+        try {
+            securityService2.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.ok()
                 .body("Hello");
     }

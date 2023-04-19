@@ -1,15 +1,13 @@
 package com.hello.hello1;
 
 import com.hello.hello1.service.SecurityService;
-import com.hello.hello1.service.SecurityServiceImpl1;
-import com.hello.hello1.service.SecurityServiceImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@RestController
+@Controller
 public class HelloController {
 
     @Autowired
@@ -19,7 +17,7 @@ public class HelloController {
     @Qualifier("SecurityServiceImpl2")
     SecurityService securityService2;
 
-    @RequestMapping("/hello")
+    @GetMapping("/hello")
     public ResponseEntity<String> hello() {
         System.out.println("In controller, service1 return: " + securityService1.auth("l1", "p1"));
         System.out.println("------------------");

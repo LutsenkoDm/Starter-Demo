@@ -1,7 +1,6 @@
 package com.hello.hello1;
 
 import com.hello.hello1.service.SecurityService;
-import com.hello.hello1.service.SecurityServiceImpl1;
 import com.hello.hello1.service.SecurityServiceImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,7 +13,7 @@ public class HelloController {
 
     @Autowired
     @Qualifier("SecurityServiceImpl1")
-    SecurityServiceImpl1 securityService1;
+    SecurityService securityService1;
     @Autowired
     @Qualifier("SecurityServiceImpl2")
     SecurityServiceImpl2 securityService2;

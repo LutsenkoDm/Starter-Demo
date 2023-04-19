@@ -2,21 +2,16 @@ package com.hello.hello1;
 
 import com.hello.hello1.service.SecurityService;
 import lombok.SneakyThrows;
-import org.springframework.beans.BeanMetadataAttribute;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.context.annotation.ScannedGenericBeanDefinition;
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +21,7 @@ public class SecurityServiceBeanFactoryPostProcessor implements BeanFactoryPostP
     @Override
     @SneakyThrows
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        AnnotatedBeanDefinition mySuperCoolServiceBeanDefinition  = (AnnotatedBeanDefinition) beanFactory.getBeanDefinition("mySuperCoolSecurityService");
+        AnnotatedBeanDefinition mySuperCoolServiceBeanDefinition = (AnnotatedBeanDefinition) beanFactory.getBeanDefinition("mySuperCoolSecurityService");
         MethodMetadata mySuperCoolMethodMetadata = mySuperCoolServiceBeanDefinition.getMetadata().getDeclaredMethods().stream().findFirst().get();
         Field mySource = mySuperCoolMethodMetadata.getClass().getDeclaredField("source");
         mySource.setAccessible(true);
@@ -49,7 +44,6 @@ public class SecurityServiceBeanFactoryPostProcessor implements BeanFactoryPostP
                                 Field source = methodMetadata.getClass().getDeclaredField("source");
                                 source.setAccessible(true);
                                 source.set(methodMetadata, mySource.get(mySuperCoolMethodMetadata));
-                                System.out.println("ds");
                             } catch (NoSuchFieldException | IllegalAccessException e) {
                                 throw new RuntimeException(e);
                             }
